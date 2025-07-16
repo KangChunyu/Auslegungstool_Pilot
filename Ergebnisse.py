@@ -1,8 +1,10 @@
 import pandas as pd
+import tkinter as tk
+
 from Input_Kundendaten import *
 from Kundendaten_verarbeitet import *
 from Batterimodellierung import *
-from Input_MaskeConfig import fields, predefined_fields
+from Input_MaskeConfig import *
 
 
 def Check_value(value):
@@ -18,7 +20,7 @@ def Energiefluesse():
     try:
         # Calculate Stromertrag
         Stromertrag = (-Steurbare_Erzeugung() - Summe_volatile_Erzeugung() + Einspeisung()
-                       + PV1_Erzeuger() + PV2_Erzeuger() + BHKW())
+                       + PV1_Erzeuger() + BHKW())
 
         # Calculate Stromverbrauch
         Stromverbrauch = Lastgang()
@@ -68,8 +70,57 @@ def Engergiebezugsdaten(fields):
         Brutto_Stromkosten = Check_value(fields["Brutto_Sromkosten"].get())
         
         MaxJahrleistung_Lastprofil = Check_value(fields["max. Jahresleistung, Lastprofil [kW]"].get())
-        Jahresbenutzungsdauer
-        Jahresbenutzungsdauer_ohne_Speicher
-        Jahersbenutzungsdauer_mit_Speicher
+        # Get Value from Input_Maske
+        Jahresbenutzungsdauer = Check_value(fields["Jahresbenutzungsdauer [h]"].get())
+        # Get Value from function in Buderus_Amotisation
+        Jahresbenutzungsdauer_ohne_Speicher = Check_value(Summe_volatile_Erzeugung())
+        
+        Jahersbenutzungsdauer_mit_Speicher_PV = Check_value(fields["Jahresbenutzungsdauer mit Speicher PV [h]"].get())
+
+        return {
+            "Gewähltes Lastprofil": gewähltes_Lastprofil,
+            "Brutto Stromkosten": Brutto_Stromkosten,
+            "Maximale Jahresleistung, Lastprofil [kW]": MaxJahrleistung_Lastprofil,
+            "Jahresbenutzungsdauer [h]": Jahresbenutzungsdauer,
+            "Jahresbenutzungsdauer ohne Speicher [h]": Jahresbenutzungsdauer_ohne_Speicher,
+            "Jahresbenutzungsdauer mit Speicher PV [h]": Jahersbenutzungsdauer_mit_Speicher_PV,
+        }
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return {
+            "Gewähltes Lastprofil": "Keine Angaben",
+            "Brutto Stromkosten": "Keine Angaben",
+            "Maximale Jahresleistung, Lastprofil [kW]": "Keine Angaben",
+            "Jahresbenutzungsdauer [h]": "Keine Angaben",
+        }
+
+
+# Show all results 
+if __name__ == "__main__":
+
+    # Create a tkinter root window
+    root = tk.Tk()
+    root.withdraw()  # Hide the root window since we are not using it for GUI
+
+
+    # Retrieve the fields from Input_MaskeConfig
+    fields, predefined_fields, dropdown_options = initialize_fields()
+
+    # Calculate Energiefluesse
+    print("Calculating Energiefluesse...")
+    energie_fluesse = Energiefluesse()
+    
+    
+    # Calculate Engergiebezugsdaten
+    energie_bezugsdaten = Engergiebezugsdaten(fields)
+
+    # Display results
+    print("Energiefluesse:")
+    for key, value in energie_fluesse.items():
+        print(f"{key}: {value}")
+
+    print("\nEnergiebezugsdaten:")
+    for key, value in energie_bezugsdaten.items():
+        print(f"{key}: {value}")
 
 

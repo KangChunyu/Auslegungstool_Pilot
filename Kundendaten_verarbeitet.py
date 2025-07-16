@@ -68,3 +68,33 @@ def Gesamtlast():
 def Netzbezug():
     # Hier können Sie die Berechnung für den Netzbezug implementieren
     pass
+
+def DC_Lader():
+    # Hier können Sie die Berechnung für den DC-Lader implementieren
+    pass
+
+def AC_lader():
+    # Hier können Sie die Berechnung für den AC-Lader implementieren
+    pass
+
+def AC_constant():
+    # Hier können Sie die Berechnung für den AC-Constant implementieren
+    pass
+
+# SUM(Netzbezug + Lader + Volatile Erzeuger + Steurbare PV1_Erzeuger)
+def LSK_Lastgang():
+    try:
+        # Ensure all components are defined and return numeric values
+        netzbezug = Netzbezug()  # Function call
+        steurbare_erzeugung = Steurbare_Erzeugung()  # Function call
+        summe_volatile_erzeugung = Summe_volatile_Erzeugung()  # Function call
+        dc_lader = DC_Lader  # Variable
+        ac_lader = AC_lader()  # Function call
+        ac_constant = AC_constant()  # Function call
+
+        # Calculate the sum
+        total = netzbezug + steurbare_erzeugung + summe_volatile_erzeugung + dc_lader + ac_lader + ac_constant
+        return total
+    except Exception as e:
+        print(f"An error occurred in LSK_Lastgang: {str(e)}")
+        return None

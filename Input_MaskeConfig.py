@@ -1,5 +1,7 @@
 import tkinter as tk
 
+root = tk.Tk()
+root.geometry("800x600")
 
 def initialize_fields():
     # Define a dictionary to store field names and their corresponding variables
@@ -9,7 +11,8 @@ def initialize_fields():
         "Kundenname": tk.StringVar(),
         "Datum": tk.StringVar(),
         "Datum_Preisversenden": tk.StringVar(),
-
+        
+        # Energiebezugsdaten 
         "Header_Energiebezugsdaten": tk.StringVar(),
         "Gewähltes_Profil": tk.StringVar(),
         "Brutto_Stromkosten": tk.StringVar(),
@@ -18,7 +21,8 @@ def initialize_fields():
         "max. Jahresleistung, Lastprofil [kW]": tk.StringVar(),
         "Jahresbenutzungsdauer [h]" : tk.StringVar(),    
 
-        "Header_Netzentgelt": tk.StringVar(),
+        # Netzenentgelt 
+        "Header_Netzentgelt Netzbetreiber": tk.StringVar(),
         "Maximale Anschlussleistung [kVA]": tk.StringVar(),
         "vereinbarte Anschlussleistung [kVA]": tk.StringVar(),
         "Gewähltes Lastprofil": tk.StringVar(),
@@ -33,7 +37,7 @@ def initialize_fields():
     predefined_fields = {
         "Energieverbrauch p.a. [kWh]": "Fehler",
         "max. Jahresleistung, Lastprofil [kW]": "0.00",
-        "Jahresbenutzungsdauer [h]": "Value"
+        "Jahresbenutzungsdauer [h]": cal_jahresbenutzungsdauer(fields),
     }
 
     # Define Dropdown options
@@ -44,3 +48,20 @@ def initialize_fields():
     }
 
     return fields, predefined_fields, dropdown_options
+
+def cal_jahresbenutzungsdauer(fields):
+    """
+    Calculate the annual usage duration based on the input fields.
+    """
+    try:
+            # Get both values from the the fields
+        energieverbrauch = float(fields["Energieverbrauch p.a. [kWh]"].get())
+        maxJahresleistung = float(fields["Energieverbrauch p.a. [kWh]"].get())
+
+        # Avoid division by zero
+        if maxJahresleistung > 0:    
+            return round(energieverbrauch / maxJahresleistung, 2)
+        else:
+            return "0.00"
+    except ValueError:
+        return "Fehler"

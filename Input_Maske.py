@@ -1,6 +1,6 @@
 import pandas as pd
 import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+from tkinter import ttk, messagebox, filedialog, filedialog, Button, StringVar, Label
 from Input_MaskeConfig import initialize_fields
 
 
@@ -78,6 +78,9 @@ def upload_file(file_type):
         try:
             # Save the file path to the global variable
             uploaded_file_path = file_path
+            # Set filetype based on the button clicked
+
+
             # Read the Excel file into a DataFrame
             df_input = pd.read_excel(file_path)
             # Convert the first column to datetime
@@ -87,13 +90,10 @@ def upload_file(file_type):
 
             # Save the file seprately depends on the filetype
             if file_type == "Kundendaten":
-                kundendaten_df = df_input
                 temp_file_path = "uploaded_Kundendaten.csv"
             elif file_type == "BHKW":
-                bhkw_df = df_input
                 temp_file_path = "uploaded_BHKW.csv"
             elif file_type == "PV":
-                bhkw_df = df_input
                 temp_file_path = "uploaded_PV.csv"
                 
             else:
@@ -113,7 +113,6 @@ def create_upload_button(row, file_type):
     upload_btn.grid(row=row, column=1)
 
 
-
 ###########################################################################################################################################
 
 if __name__ == "__main__":
@@ -127,7 +126,7 @@ fields, predefined_fields, dropdown_options = initialize_fields()
 create_input_fields()
 
 # Create the upload button for Input Kundendaten
-create_upload_button(row=len(fields) + 2, file_type="kundendaten")
+create_upload_button(row=len(fields) + 2, file_type="Kundendaten")
 
 # Create the upload button for BHKW
 create_upload_button(row=len(fields) + 3, file_type="BHKW")
