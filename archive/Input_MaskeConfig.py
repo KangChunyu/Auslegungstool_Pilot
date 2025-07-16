@@ -1,9 +1,14 @@
 import tkinter as tk
 
-root = tk.Tk()
-root.geometry("800x600")
-
 def initialize_fields():
+    """
+    Initialize fields with tkinter StringVar.
+    Ensure a root window exists before creating StringVar objects.
+    """
+    # Check and Create if a default root window exists
+    if not tk._default_root:
+        tk.Tk()  
+
     # Define a dictionary to store field names and their corresponding variables
     fields = {
         "Projektname": tk.StringVar(),
@@ -26,6 +31,14 @@ def initialize_fields():
         "Maximale Anschlussleistung [kVA]": tk.StringVar(),
         "vereinbarte Anschlussleistung [kVA]": tk.StringVar(),
         "Gewähltes Lastprofil": tk.StringVar(),
+
+        # Battarieeinheit:
+        "Header_Batterieeinheit": tk.StringVar(),
+        "Dynamischer SOC an/aus": tk.StringVar(),
+        "Use-Case": tk.StringVar(),
+        "Kaskade LSK": tk.StringVar(),
+        "Kaskade EVO": tk.StringVar(),
+
         
 
         # Add dropdown fields
@@ -37,14 +50,16 @@ def initialize_fields():
     predefined_fields = {
         "Energieverbrauch p.a. [kWh]": "Fehler",
         "max. Jahresleistung, Lastprofil [kW]": "0.00",
-        "Jahresbenutzungsdauer [h]": cal_jahresbenutzungsdauer(fields),
+        "Jahresbenutzungsdauer [h]": cal_jahresbenutzungsdauer(fields)
     }
 
     # Define Dropdown options
     dropdown_options = {
         "Kundendaten_Type": ["volatile Erzeugung 1", "volatile Erzeugung 2", "volatile Erzeugung 3", "Jvolatile Erzeugung 4", 
                                "steurbare Erzeugung 1", "steurbare Erzeugung 2", "steurbare Erzeugung 3", "steurbare Erzeugung 4", "Netzbezug"],
-        "Kundendaten_Status": ["An", "Aus"]
+        "Kundendaten_Status": ["An", "Aus"],
+        "Danamischer SOC an/aus": ["An", "Aus"],
+        "Use-Case": ["Eigenverbrauch", "Netzstabilisierung", "Notstromversorgung"]
     }
 
     return fields, predefined_fields, dropdown_options

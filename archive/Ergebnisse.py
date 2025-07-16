@@ -2,9 +2,9 @@ import pandas as pd
 import tkinter as tk
 
 from Input_Kundendaten import *
-from Kundendaten_verarbeitet import *
+from archive.Kundendaten_verarbeitet import *
 from Batterimodellierung import *
-from Input_MaskeConfig import *
+from archive.Input_MaskeConfig import *
 
 
 def Check_value(value):

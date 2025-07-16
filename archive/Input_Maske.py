@@ -1,7 +1,7 @@
 import pandas as pd
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog, filedialog, Button, StringVar, Label
-from Input_MaskeConfig import initialize_fields
+from archive.Input_MaskeConfig import initialize_fields
 
 
 # Function to dynamically create all input fields
@@ -110,7 +110,7 @@ def upload_file(file_type):
 def create_upload_button(row, file_type):
     button_text = f"Upload {file_type} File"
     upload_btn = tk.Button(root, text=button_text, command=lambda: upload_file(file_type))
-    upload_btn.grid(row=row, column=1)
+    upload_btn.grid(row=row, column=1, padx=10, pady=5)
 
 
 ###########################################################################################################################################
