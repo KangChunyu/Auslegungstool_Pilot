@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
-from Core.calculation import calculate_results
-from Core.validation import validate_form_data
+from Logic.calculation import calculate_results
+from Logic.validation import validate_form_data
 from Utils.session_helper import get_uploaded_dataframes
 
 def display_results():
-    st.header("🔁 Ergebnisse und Letzte Änderungen")
+    st.header("Ergebnisse Daten Anpassen")
 
     if 'form_data' not in st.session_state:
         st.info("Noch keine Eingabedaten vorhanden. Bitte zuerst das Formular ausfüllen.")
@@ -13,8 +13,6 @@ def display_results():
 
     form_data = st.session_state.form_data
     edited_form_data = {}
-
-    st.markdown("### ✏️ Eingabedaten anpassen")
 
     # Loop through sections and fields for editing
     for section, fields in form_data.items():
@@ -62,7 +60,7 @@ def display_results():
             return
 
     # Show original inputted values (optional: skip Projekt Information)
-    st.markdown("### 📥 Ursprüngliche Eingabedaten")
+    st.markdown("### Ursprüngliche Eingabedaten")
     for section, fields in st.session_state.form_data.items():
         if section == "Projekt Information":  # ❌ remove if you want to hide it
             continue

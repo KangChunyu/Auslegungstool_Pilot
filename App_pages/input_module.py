@@ -1,9 +1,12 @@
 import streamlit as st
-from Core.calculation import calculate_results
-from Core.validation import validate_form_data  # make sure to import this if in separate file
+from Logic.calculation import calculate_results
+from Logic.validation import validate_form_data  # make sure to import this if in separate file
 
 def input_form():
     st.header("Kundendaten Eingabe")
+
+    # Define sub-pages for the input form
+    sub_pages = ["Allgemeine Daten", "Batterieeinheit"] 
 
     kundendaten_options = [
         "volatile Erzeugung 1", "volatile Erzeugung 2", 
@@ -13,15 +16,15 @@ def input_form():
         "Netzbezug"
     ]
 
-    sub_pages = ["Allgemeine Daten", "Batterieeinheit"]
-
     if 'form_page_index' not in st.session_state:
         st.session_state.form_page_index = 0
     if 'form_data' not in st.session_state:
         st.session_state.form_data = {}
+    # Set default kundendaten_type to first one  
     if 'kundendaten_type' not in st.session_state:
         st.session_state.kundendaten_type = kundendaten_options[0]
 
+    # Cursor to show current subpage
     current_page = sub_pages[st.session_state.form_page_index]
     st.sidebar.markdown(f"**Aktueller Abschnitt:** {current_page}")
 
