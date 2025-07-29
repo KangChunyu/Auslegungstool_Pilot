@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
-from Logic.calculation import calculate_results
+from Logic.post_calculation import calculate_results
 from Logic.validation import validate_form_data
 from Utils.session_helper import get_uploaded_dataframes
+from Utils.pdf_generator import generate_result_pdf
 
 def display_results():
     st.header("Ergebnisse Daten Anpassen")
@@ -82,17 +83,13 @@ def display_results():
 
         # Export results button
         if st.button("📥 Ergebnisse Exportieren"):
-            flat_results = {}
-            for section, data in results.items():
-                for key, value in data.items():
-                    flat_results[f"{section} - {key}"] = value
-
-            df = pd.DataFrame([flat_results])
+            pdf_bytes = generate_result_pdf(st.session_state.form_data, st.session_state.results)
+            
             st.download_button(
-                label="Download CSV",
-                data=df.to_csv(index=False),
-                file_name="results.csv",
-                mime="text/csv"
+                label="PDF Herunterladen",
+                data=pdf_bytes,
+                file_name="results.pdf",
+                mime="application/pdf"
             )
     else:
         st.info("Noch keine Ergebnisse verfügbar. Bitte zuerst berechnen.")

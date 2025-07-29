@@ -1,12 +1,15 @@
 import streamlit as st
+
+# Set page configuration first
+st.set_page_config(page_title="Bosch BESS Tool", layout="wide")
+
+
 from App_pages.homepage import show_home
 from App_pages.upload_module import upload_files
 from App_pages.input_module import input_form
 from App_pages.results_module import display_results
 
 def main():
-    # Set page configuration first
-    st.set_page_config(page_title="Bosch BESS Tool", layout="wide")
 
     # Set custom app title and logo
     col1, col2 = st.columns([1,8]) # Logo and text in 1:8 ratio
@@ -45,7 +48,7 @@ def main():
     if st.session_state.active_page == "Eingabe Form":
         
         # Define sub-pages for the input form
-        sub_pages = ["Allgemeine Daten", "Batterieeinheit"]
+        sub_pages = ["Allgemeine Daten", "Batterieeinheit", "PV Anlage"]
     
         # Make sure sub page index is 0
         if 'form_page_index' not in st.session_state:
