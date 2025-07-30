@@ -14,6 +14,14 @@ def allgemeine_daten_form():
         kundenname = st.text_input("Kundenname")
         kundendaten_type = st.selectbox("Kundendaten Type", KUNDENDATEN_OPTIONS, index=0, key="kundendaten_type")
         kundendaten_status = st.selectbox("Kundendaten Status", ANAUS_STATUS, index=0, key="kundendaten_status")
+        
+        # Handle Lastprofil selection
+        if st.session_state.get("profil_option") == "Standardlastprofil auswählen":
+            selected_profile = st.session_state.get("selected_lastprofil_name", "Unbekannt")
+        else:
+            selected_profile = "keine"
+
+        lastprofil = st.text_input("Ausgewähtes Lastprofil", value=selected_profile, disabled=True)
 
     st.session_state.form_data["Projekt Information"] = {
         "Projektname": projektname,
@@ -22,7 +30,8 @@ def allgemeine_daten_form():
         "Datum": datum,
         "Datum_Preisversenden": datum_preisversenden,
         "Kundendaten_Type": kundendaten_type,
-        "Kundendaten_Status": kundendaten_status
+        "Kundendaten_Status": kundendaten_status,
+        "Ausgewähltes_Lastprofil": lastprofil
     }
 
     st.subheader("Energiebezugsdaten")

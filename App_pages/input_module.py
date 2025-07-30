@@ -15,7 +15,7 @@ def input_form():
         st.session_state.form_data = {}
 
     # Ensure Verbrauchsprofil is already provided (from upload_module)
-    if "Verbrauchsprofil" not in st.session_state.form_data:
+    if "kundendaten_df" not in st.session_state:
         st.warning("Bitte geben Sie im Abschnitt 'Daten Upload' ein Verbrauchsprofil an.")
         return
 

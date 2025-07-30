@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from Utils.data_loader import load_standard_profile
 
-
+# function to detect the time interval of the timestamp column
 def detect_time_interval(df):
     if "timestamp" not in df.columns or df.shape[0] < 2:
         return "Unbekannt"
@@ -13,7 +13,7 @@ def detect_time_interval(df):
     delta = valid_ts.diff().dropna().mode()[0]
     return delta
 
-
+# function to change time unit from 1 hour to 15 minutes
 def normalize_to_15min(df):
     df = df.copy()
     df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
@@ -24,14 +24,14 @@ def normalize_to_15min(df):
         df = df.resample("15T").interpolate(method="linear")
     return df.reset_index()
 
-
+# function manage the upload of files and selection of standard profiles
 def upload_files():
     st.header("Daten hochladen")
 
     if "form_data" not in st.session_state:
         st.session_state.form_data = {}
 
-    st.subheader("Verbrauchsprofil auswählen")
+    st.subheader("Eignendaten hochladen / Stadardlastprofil auswählen")
 
     if "standard_profiles" not in st.session_state:
         try:
@@ -53,7 +53,7 @@ def upload_files():
 
     if st.session_state.profil_option == "Eigene Datei hochladen":
         uploaded_file = st.file_uploader("CSV-Datei für Verbrauchsprofil hochladen", type=["csv"], key="verbrauchsprofil_upload")
-
+        
         if uploaded_file:
             df = pd.read_csv(uploaded_file)
             if "timestamp" not in df.columns:
@@ -82,6 +82,7 @@ def upload_files():
             st.info(f"Profilauflösung: **{interval}**")
 
             st.session_state.kundendaten_df = preview_df
+            st.session_state["selected_lastprofil_name"] = selected_profile
             st.success(f"Standardprofil '{selected_profile}' ausgewählt.")
             st.dataframe(preview_df.head())
             profil_loaded = True
@@ -90,7 +91,8 @@ def upload_files():
 
     st.markdown("---")
 
-    # Section 2: Weitere Dateien
+
+    # Section 2: Upload DHBW and PV files into the system
     dhbw_file = st.file_uploader("DHBW hochladen", type=['csv'])
     pv_file = st.file_uploader("PV hochladen", type=['csv'])
 
